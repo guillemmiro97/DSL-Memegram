@@ -8,21 +8,23 @@ router.get("/", async (req, res, next) => {
     res.json(await udao.getAll())
 })
 
-router.get("/:id", (req, res, next) => {
-    next("not implemented yet")
+router.get("/:id", async (req, res, next) => {
+    res.json(await udao.get(req.params.id))
 })
 
-router.post("/", (req, res, next) => {
-    next("not implemented yet")
+router.post("/", async (req, res, next) => {
+    console.log(req.body)
+    res.json(await udao.insertUser(req.body.user, req.body.password))
 })
 
-
-router.put("/:id", (req, res, next) => {
-    next("not implemented yet")
+router.put("/:id", async (req, res, next) => {
+    console.log(req.body, req.params.id)
+    res.json(await udao.updateUser(req.params.id, req.body.password))
 })
 
-router.delete("/:id", (req, res, next) => {
-    next("not implemented yet")
+router.delete("/:id", async (req, res, next) => {
+    console.log(req.body, req.params.id)
+    res.json(await udao.delete(req.params.id))
 })
 
 

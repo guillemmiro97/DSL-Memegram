@@ -10,24 +10,18 @@ class GenericDAO {
         return results;
     }
 
-    get(id) {
+    async get(id) {
+        this._id = id;
         // SELECT * FROM ?? WHERE id = 'params.id'
-        return {};
+        const [results] = await global.connection.promise().query("SELECT * FROM ?? WHERE id = ?", [this.tabla, this._id])
+        return results;
     }
 
-    post(user) {
-        // INSERT INTO ?? (??) values (??)
-        return {}
-    }
-
-    update(id, data) {
-        // UPDATE ?? SET ?? = ? WHERE id = ?
-        return {}
-    }
-
-    delete(id) {
-        // DELETE FROM ?? WHERE id = ?
-        return {}
+    async delete(id) {
+        this._id = id;
+        // DELETE FROM ?? WHERE id = 'params.id'
+        const [results] = await global.connection.promise().query("DELETE FROM ?? WHERE id = ?", [this.tabla, this._id])
+        return results;
     }
 
 }
