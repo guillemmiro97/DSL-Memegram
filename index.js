@@ -12,6 +12,7 @@ const port = 3000
 
 const usersRoute = require('./routes/users_route')
 const postsRoute = require('./routes/posts_route')
+const commentsRoute = require('./routes/comments_route')
 
 app.use(morgan('tiny'))
 app.use(helmet());
@@ -20,6 +21,7 @@ app.use(express.json())  // convierte el body (bytes) -> objeto json
 
 app.use("/users" , usersRoute)
 app.use("/posts" , postsRoute)
+app.use("/comments" , commentsRoute)
 
 app.get('*', (req, res) => {
     res.json({ error: "404"})

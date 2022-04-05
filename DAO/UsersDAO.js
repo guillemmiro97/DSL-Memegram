@@ -6,11 +6,6 @@ class UsersDAO extends GenericDAO{
         super("user")
     }
 
-    getAllAbove18(){
-        // SELECT * FROM USERS WHERE age > 18
-        return [{name: "alice"} , {name: "bob"} , {name: "charlie"}]
-    }
-
     async insertUser(name, password){
         this._name = name
         this._password = password
