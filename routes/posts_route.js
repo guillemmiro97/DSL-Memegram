@@ -1,12 +1,29 @@
-const express = require('express')
-const route = express.Router()
+const express = require("express")
+const router = express.Router()
 
-route.get('/', (req, res, next) =>{
-    return res.json({post: 1})
+const PostsDAO = require("../DAO/PostsDAO")
+const pdao = new PostsDAO()
+
+router.get("/", async (req, res, next) => {
+    res.json(await pdao.getAll())
 })
 
-route.get('/:id', (req, res, next) =>{
-    return res.json({post: req.params.id})
+router.get("/:id", (req, res, next) => {
+    next("not implemented yet")
 })
 
-module.exports = route
+router.post("/", (req, res, next) => {
+    next("not implemented yet")
+})
+
+
+router.put("/:id", (req, res, next) => {
+    next("not implemented yet")
+})
+
+router.delete("/:id", (req, res, next) => {
+    next("not implemented yet")
+})
+
+
+module.exports = router;

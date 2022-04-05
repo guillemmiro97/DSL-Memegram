@@ -1,26 +1,30 @@
-require('dotenv').config();
+require("dotenv").config()
+
 const express = require('express')
-const mysql = require('mysql2/promise');
+const morgan = require('morgan')
+const helmet = require("helmet");
+
+const mysql = require("mysql2")
+global.connection = mysql.createConnection(process.env.DATABASE_URL);
+
 const app = express()
-const router = express.Router()
 const port = 3000
 
 const usersRoute = require('./routes/users_route')
 const postsRoute = require('./routes/posts_route')
 
-app.get('/api/', async (req, res, next) => {
-})
+app.use(morgan('tiny'))
+app.use(helmet());
 
-app.use("/users", usersRoute)
-app.use("/posts", postsRoute)
+app.use(express.json())  // convierte el body (bytes) -> objeto json
 
-app.use((err, req, res, next) => {
-    res.status(500).json({ error: err.message })
+app.use("/users" , usersRoute)
+app.use("/posts" , postsRoute)
+
+app.get('*', (req, res) => {
+    res.json({ error: "404"})
 })
 
 app.listen(port, () => {
-    console.log(`http://localhost:${port}/users`)
-    console.log(`http://localhost:${port}/posts`)
+    console.log(`http://localhost:${port}`)
 })
-
-module.exports = router
