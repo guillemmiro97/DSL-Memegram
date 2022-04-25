@@ -22,18 +22,31 @@ router.get("/howmanyposts/:id", async (req, res, next) => {
 })
 
 router.post("/", async (req, res, next) => {
-    console.log(req.body)
-    res.json(await pdao.insertPost(req.body.iduser, req.body.uidimagen))
+    if (await pdao.checkToken(req)) {
+        res.send(await pdao.insertPost(req.body.iduser, req.body.uidimagen))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 router.put("/:id", async (req, res, next) => {
-    console.log(req.body, req.params.id)
-    res.json(await pdao.updatePost(req.params.id, req.body.uidimagen))
+    const decoded = await pdao.checkToken(req)
+
+    if (decoded.id == req.params.id) {
+        res.json(await pdao.updatePost(req.params.id, req.body.uidimagen))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 router.delete("/:id", async (req, res, next) => {
-    console.log(req.body, req.params.id)
-    res.json(await pdao.delete(req.params.id))
+    const decoded = await pdao.checkToken(req)
+
+    if (decoded.id == req.params.id) {
+        res.json(await pdao.delete(req.params.id))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 

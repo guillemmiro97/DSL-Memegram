@@ -10,6 +10,7 @@ global.connection = mysql.createConnection(process.env.DATABASE_URL);
 const app = express()
 const port = 3000
 
+const loginRoute = require('./routes/login_route')
 const usersRoute = require('./routes/users_route')
 const postsRoute = require('./routes/posts_route')
 const commentsRoute = require('./routes/comments_route')
@@ -19,6 +20,7 @@ app.use(helmet());
 
 app.use(express.json())  // convierte el body (bytes) -> objeto json
 
+app.use('/login', loginRoute)
 app.use("/users" , usersRoute)
 app.use("/posts" , postsRoute)
 app.use("/comments" , commentsRoute)

@@ -25,18 +25,31 @@ router.get("/numberofcommentsbypost/:id", async (req, res, next) => {
 })
 
 router.post("/", async (req, res, next) => {
-    console.log(req.body)
-    res.json(await cdao.insertComment(req.body.idUser, req.body.idPost, req.body.idComent, req.body.contenido))
+    if (await cdao.checkToken(req)) {
+        res.send(await cdao.insertComment(req.body.idUser, req.body.idPost, req.body.idComent, req.body.contenido))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 router.put("/:id", async (req, res, next) => {
-    console.log(req.body, req.params.id)
-    res.json(await cdao.updateComment(req.params.id, req.body.contenido))
+    const decoded = await cdao.checkToken(req)
+
+    if (decoded.id == req.params.id) {
+        res.json(await cdao.updateComment(req.params.id, req.body.contenido))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 router.delete("/:id", async (req, res, next) => {
-    console.log(req.body, req.params.id)
-    res.json(await cdao.delete(req.params.id))
+    const decoded = await cdao.checkToken(req)
+
+    if (decoded.id == req.params.id) {
+        res.json(await cdao.delete(req.params.id))
+    } else {
+        res.sendStatus(401)
+    }
 })
 
 
